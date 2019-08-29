@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Using Vanila</title>
+</head>
+<body>
+<h1>counter <span id="count1">0</span></h1>
+<h1>counter <span id="count2">0</span></h1>
+<button onclick="increment1()">+</button>
+<button onclick="decrement1()">-</button>
+<button onclick="increment2()">+</button>
+<button onclick="decrement2()">-</button>
+</body>
+<script>
+  function getCounter(query) {
+    return document.querySelector(query);
+  }
+  function increment1() {
+    var counter = getCounter('#count1');
+    var count = parseInt(counter.textContent);
+    counter.textContent = count + 1;
+  }
+  function increment2() {
+    var counter = getCounter('#count2');
+    var count = parseInt(counter.textContent);
+    counter.textContent = count + 1;
+  }
+  function decrement1() {
+    var counter = getCounter('#count1');
+    var count = parseInt(counter.textContent);
+    counter.textContent = count - 1;
+  }
+  function decrement2() {
+    var counter = getCounter('#count2');
+    var count = parseInt(counter.textContent);
+    counter.textContent = count - 1;
+  }
+</script>
+
+</html>

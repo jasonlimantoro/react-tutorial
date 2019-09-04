@@ -6,7 +6,7 @@ class Counter extends Component {
     initialCount: PropTypes.number
   };
   state = {
-    count: this.props.initialCount
+    count: this.props.initialCount || 0
   };
   increment = () => {
     this.setState({ count: this.state.count + 1 });
@@ -14,6 +14,17 @@ class Counter extends Component {
   decrement = () => {
     this.setState({ count: this.state.count - 1 });
   };
+
+  componentDidMount() {
+    document.title = `Current count: ${this.state.count}`;
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (this.state.count !== prevState.count) {
+      document.title = `Current count: ${this.state.count}`;
+    }
+  }
+
   render() {
     return (
       <div>

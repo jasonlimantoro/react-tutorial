@@ -3,27 +3,31 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Card from 'react-bootstrap/Card';
-import ListGroup from 'react-bootstrap/ListGroup';
 import Form from 'react-bootstrap/Form';
 import './App.css';
-
-const selectCompletedTodos = todos =>
-  todos.length > 0 && todos.filter(t => t.completed === true);
+import TodoList from './components/TodoList';
 
 class App extends Component {
   state = {
     todos: [],
-    url: ''
+    url: 'https://jsonplaceholder.typicode.com/todos'
   };
 
+  get todos() {
+    return this.state.todos;
+  }
+
+  get completedTodos() {
+    return this.todos.filter(t => t.completed === true);
+  }
+
   componentDidMount() {
-    document.title = `Todos (${this.state.todos.length})`;
+    document.title = `Todos (${this.todos.length})`;
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (prevState.todos.length !== this.state.todos.length) {
-      document.title = `Todos (${this.state.todos.length})`;
+    if (prevState.todos.length !== this.todos.length) {
+      document.title = `Todos (${this.todos.length})`;
     }
   }
 
@@ -42,7 +46,7 @@ class App extends Component {
   };
   toggleTodo = todo => {
     this.setState({
-      todos: this.state.todos.map(t => {
+      todos: this.todos.map(t => {
         if (t.id === todo.id) {
           t.completed = !t.completed;
         }
@@ -52,7 +56,7 @@ class App extends Component {
   };
   completeAllTodos = () => {
     this.setState({
-      todos: this.state.todos.map(t => {
+      todos: this.todos.map(t => {
         t.completed = true;
         return t;
       })
@@ -60,7 +64,7 @@ class App extends Component {
   };
   incompleteAllTodos = () => {
     this.setState({
-      todos: this.state.todos.map(t => {
+      todos: this.todos.map(t => {
         t.completed = false;
         return t;
       })
@@ -76,7 +80,6 @@ class App extends Component {
   };
 
   render() {
-    const completedTodos = selectCompletedTodos(this.state.todos);
     const { url } = this.state;
     return (
       <Container>
@@ -100,76 +103,20 @@ class App extends Component {
         </Form>
         <Row>
           <Col>
-            <Card style={{ overflowY: 'scroll' }}>
-              <Card.Header
-                style={{ display: 'flex', justifyContent: 'space-between' }}
-              >
-                All ({this.state.todos.length}){' '}
-                <Button onClick={this.completeAllTodos}>
-                  Mark all as completed
-                </Button>
-              </Card.Header>
-              <ListGroup>
-                {this.state.todos.length > 0 &&
-                  this.state.todos.map(t => {
-                    return (
-                      <ListGroup.Item
-                        key={t.id}
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'space-between'
-                        }}
-                      >
-                        {t.id}. {t.title}{' '}
-                        <Button
-                          onClick={() => this.toggleTodo(t)}
-                          variant={!t.completed ? 'primary' : 'warning'}
-                        >
-                          {!t.completed
-                            ? 'Mark as complete'
-                            : 'Mark as incomplete'}
-                        </Button>
-                      </ListGroup.Item>
-                    );
-                  })}
-              </ListGroup>
-            </Card>
+            <TodoList
+              title="All"
+              todos={this.todos}
+              batchAction={this.completeAllTodos}
+              toggleTodo={this.toggleTodo}
+            />
           </Col>
           <Col>
-            <Card>
-              <Card.Header
-                style={{ display: 'flex', justifyContent: 'space-between' }}
-              >
-                Completed ({completedTodos.length})
-                <Button variant="warning" onClick={this.incompleteAllTodos}>
-                  Mark all as incomplete
-                </Button>
-              </Card.Header>
-              <ListGroup>
-                {completedTodos &&
-                  completedTodos.map(t => {
-                    return (
-                      <ListGroup.Item
-                        key={t.id}
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'space-between'
-                        }}
-                      >
-                        {t.id}. {t.title}{' '}
-                        <Button
-                          onClick={() => this.toggleTodo(t)}
-                          variant="warning"
-                        >
-                          Mark as incomplete
-                        </Button>
-                      </ListGroup.Item>
-                    );
-                  })}
-              </ListGroup>
-            </Card>
+            <TodoList
+              title="Completed"
+              todos={this.completedTodos}
+              batchAction={this.incompleteAllTodos}
+              toggleTodo={this.toggleTodo}
+            />
           </Col>
         </Row>
       </Container>

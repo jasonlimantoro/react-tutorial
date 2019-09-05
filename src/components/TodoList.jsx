@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
-import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import TodoListItem from './TodoListItem';
 
@@ -29,8 +28,7 @@ const TodoList = ({ todos, batchAction, toggleTodo, title }) => {
               alignItems: 'center'
             }}
           >
-            {title} ({filteredTodos.length}){' '}
-            <Button onClick={batchAction}>Mark all as completed</Button>
+            {title} ({filteredTodos.length}) {batchAction}
           </div>
           <Form.Group>
             <Form.Label>
@@ -54,7 +52,8 @@ const TodoList = ({ todos, batchAction, toggleTodo, title }) => {
 };
 
 TodoList.propTypes = {
-  todos: PropTypes.array
+  todos: PropTypes.array,
+  batchAction: PropTypes.object
 };
 
 TodoList.defaultProps = {};

@@ -106,7 +106,9 @@ class App extends Component {
             <TodoList
               title="All"
               todos={this.todos}
-              batchAction={this.completeAllTodos}
+              batchAction={
+                <Button onClick={this.completeAllTodos}>Complete all</Button>
+              }
               toggleTodo={this.toggleTodo}
             />
           </Col>
@@ -114,7 +116,11 @@ class App extends Component {
             <TodoList
               title="Completed"
               todos={this.completedTodos}
-              batchAction={this.incompleteAllTodos}
+              batchAction={
+                <Button variant="warning" onClick={this.incompleteAllTodos}>
+                  Incomplete all
+                </Button>
+              }
               toggleTodo={this.toggleTodo}
             />
           </Col>

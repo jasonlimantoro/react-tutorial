@@ -3,20 +3,51 @@ import PropTypes from 'prop-types';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 import TodoListItem from './TodoListItem';
 
 const TodoList = ({ todos, batchAction, toggleTodo, title }) => {
+  const [search, setSearch] = React.useState('');
+  const getFilteredTodos = () => {
+    return (
+      (todos &&
+        todos.filter(
+          t => t.title.toLowerCase().indexOf(search.toLowerCase()) !== -1
+        )) ||
+      []
+    );
+  };
+  const filteredTodos = getFilteredTodos();
   return (
-    <Card style={{ overflowY: 'scroll' }}>
-      <Card.Header style={{ display: 'flex', justifyContent: 'space-between' }}>
-        {title} ({todos.length}){' '}
-        <Button onClick={batchAction}>Mark all as completed</Button>
+    <Card>
+      <Card.Header>
+        <header>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center'
+            }}
+          >
+            {title} ({filteredTodos.length}){' '}
+            <Button onClick={batchAction}>Mark all as completed</Button>
+          </div>
+          <Form.Group>
+            <Form.Label>
+              Search: <b>{search}</b>{' '}
+            </Form.Label>
+            <Form.Control
+              placeholder="Search todo"
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+            />
+          </Form.Group>
+        </header>
       </Card.Header>
-      <ListGroup>
-        {todos.length > 0 &&
-          todos.map(t => {
-            return <TodoListItem key={t.id} todo={t} toggleTodo={toggleTodo} />;
-          })}
+      <ListGroup style={{ overflowY: 'scroll', height: 500 }}>
+        {filteredTodos.map(t => {
+          return <TodoListItem key={t.id} todo={t} toggleTodo={toggleTodo} />;
+        })}
       </ListGroup>
     </Card>
   );

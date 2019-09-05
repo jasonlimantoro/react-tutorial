@@ -12,7 +12,7 @@ const TodoListItem = ({ todo, toggleTodo }) => {
         justifyContent: 'space-between'
       }}
     >
-      {todo.id}. {todo.title}{' '}
+      {todo.id}. {todo.title}
       <Button
         onClick={() => toggleTodo(todo)}
         variant={!todo.completed ? 'primary' : 'warning'}

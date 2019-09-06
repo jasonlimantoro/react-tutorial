@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Table from 'react-bootstrap/Table';
 import TemperatureInput from './TemperatureInput';
 
 export const SCALE_TEXT = {
@@ -97,9 +98,23 @@ const TemperatureConverter = () => {
         scale="k"
         from={currentScale}
       />
-      Result: <code>{celsius || '_'}</code> degrees Celsius ={' '}
-      <code>{fahrenheit || '_'}</code> degrees Fahrenheit ={' '}
-      <code>{kelvin || '_'}</code> degrees Kelvin
+      <h5>Result: </h5>
+      <Table striped bordered hover variant="dark">
+        <thead>
+          <tr>
+            <th>Celsius</th>
+            <th>Fahrenheit</th>
+            <th>Kelvin</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{celsius}</td>
+            <td>{fahrenheit}</td>
+            <td>{kelvin}</td>
+          </tr>
+        </tbody>
+      </Table>
     </div>
   );
 };

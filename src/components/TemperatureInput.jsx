@@ -3,7 +3,7 @@ import Form from 'react-bootstrap/Form';
 import { SCALE_TEXT } from './TemperatureConverter';
 import PropTypes from 'prop-types';
 
-const TemperatureInput = ({ scale, to, value, onChange }) => {
+const TemperatureInput = ({ scale, from, value, onChange }) => {
   const handleChange = e => {
     onChange(e.target.value);
   };
@@ -11,7 +11,11 @@ const TemperatureInput = ({ scale, to, value, onChange }) => {
     <div>
       <Form.Group>
         <Form.Label>
-          {SCALE_TEXT[scale]} to {SCALE_TEXT[to]}
+          {scale === from ? (
+            <strong>{SCALE_TEXT[scale]}</strong>
+          ) : (
+            `${SCALE_TEXT[scale]} from ${SCALE_TEXT[from]}`
+          )}
         </Form.Label>
         <Form.Control
           type="number"
@@ -26,7 +30,7 @@ const TemperatureInput = ({ scale, to, value, onChange }) => {
 
 TemperatureInput.propTypes = {
   scale: PropTypes.string,
-  to: PropTypes.string,
+  from: PropTypes.string,
   value: PropTypes.string,
   onChange: PropTypes.func.isRequired
 };

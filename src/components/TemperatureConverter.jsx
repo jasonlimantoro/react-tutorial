@@ -42,24 +42,29 @@ const convert = (input, converter) => {
 const TemperatureConverter = () => {
   const [temperature, setTemperature] = useState('');
   const [currentScale, setCurrentScale] = useState('c');
-  const celsius =
-    currentScale === 'c'
-      ? temperature
-      : currentScale === 'f'
-      ? convert(temperature, fToC)
-      : convert(temperature, KtoC);
-  const fahrenheit =
-    currentScale === 'f'
-      ? temperature
-      : currentScale === 'c'
-      ? convert(temperature, cToF)
-      : convert(temperature, KtoF);
-  const kelvin =
-    currentScale === 'k'
-      ? temperature
-      : currentScale === 'c'
-      ? convert(temperature, cToK)
-      : convert(temperature, fToK);
+  let celsius, fahrenheit, kelvin;
+  switch (currentScale) {
+    case 'c': {
+      celsius = temperature;
+      fahrenheit = convert(temperature, cToF);
+      kelvin = convert(temperature, cToK);
+      break;
+    }
+    case 'f': {
+      celsius = convert(temperature, fToC);
+      fahrenheit = temperature;
+      kelvin = convert(temperature, fToK);
+      break;
+    }
+    case 'k': {
+      celsius = convert(temperature, KtoC);
+      fahrenheit = convert(temperature, KtoF);
+      kelvin = temperature;
+      break;
+    }
+    default:
+      throw new Error('not supported conversion');
+  }
 
   const handleChangeCelsius = value => {
     setTemperature(value);

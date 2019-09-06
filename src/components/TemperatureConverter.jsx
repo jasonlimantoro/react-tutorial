@@ -51,7 +51,7 @@ const TemperatureConverter = () => {
   const fahrenheit =
     currentScale === 'f'
       ? temperature
-      : temperature === 'c'
+      : currentScale === 'c'
       ? convert(temperature, cToF)
       : convert(temperature, KtoF);
   const kelvin =
